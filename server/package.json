@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "type": "module",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "create-test-users": "node src/utils/createTestUsers.js"
+    "vercel-build": "echo hello"
   },
   "dependencies": {
     "@graphql-tools/schema": "^10.0.11",

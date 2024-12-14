@@ -4,14 +4,15 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import config from '../config';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
-  credentials: 'same-origin'
+  uri: `${config.BACKEND_URL}/graphql`,
+  credentials: 'include'
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4000/graphql',
+  url: `${config.WS_URL}/graphql`,
   connectionParams: () => ({
     authToken: localStorage.getItem('token')
   }),
@@ -21,7 +22,9 @@ const wsLink = new GraphQLWsLink(createClient({
       if (error) {
         console.error('WS connection error:', error);
       }
-    }
+    },
+    shouldRetry: () => true,
+    retryAttempts: 5
   }
 }));
 
